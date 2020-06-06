@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="d3.v5.js"></script>
+    <!-- including d3.js -->
+  </head>
+  <body>
+    <svg>
+        <!--<rect/>
+        <rect/> if these were added no data or attributes would be bound to them as they are only bound
+        to the appended elements. TLDR; If you do this the first two bars and data values wont show up. Dont do this ok.-->
+    </svg>
+    <!-- no rects included in the svg-->
+    <script>
+      const height = 50;
+      const rectWidth = 10;
+      const data = [20, 20, 10, 30, 23, 34, 54,90,23,43];
+      const svg = d3.select("svg");
+      const yScale=d3.scaleLinear().domain(d3.extent(data)).range([height,0])
+      const yAxis=d3.axisLeft().scale(yScale)
+      const viz=svg//selection
+        .selectAll("rect") //empty selection
+        .data(data) //enters data and figures out that it needs 7 rectangles corresponding to the 7 data points
+        .enter() // creates 7 placeholders each corresponding to the 7 data points
+        .append("rect") // adds rectangles to the placeholders
+        .attr("x", (d, i) => i * rectWidth)
+        .attr("y", (d, i) => height - d)
+        .attr("width", rectWidth)
+        .attr("height", (d) => d)
+        .attr("fill", (d, i) => {
+          if (d > 50) {
+            return "red";   
+          } else {
+            return "blue";
+          }
+        })
+        .attr("stroke", "#fff")
+        console.log(viz.nodes())
+        console.log(viz.data())//view bound data points.
+    </script>
+  </body>
+</html>

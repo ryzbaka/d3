@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="d3.v5.js"></script>
+    <!-- including d3.js -->
+  </head>
+  <body>
+    <svg height="600" , width="600">
+      <!--<rect/>
+        <rect/> if these were added no data or attributes would be bound to them as they are only bound
+        to the appended elements. TLDR; If you do this the first two bars and data values wont show up. Dont do this ok.-->
+    </svg>
+    <!-- no rects included in the svg-->
+    <script>
+      height = 80;
+      const rectWidth = 5;
+      const data = [12, 32, 45, 53, 200, 32, 24];
+
+      const extent = d3.extent(data);
+      const yScale = d3.scaleLinear().domain(extent).range([height,0]); //this is a scale
+      const yAxis = d3.axisLeft().scale(yScale); //this is an axis
+      
+      const axis=d3.select("svg")
+        .append("g") //adding group within the svg to be able to add other svg elements
+        .attr("transform", "translate(40,20)") //translate the group
+        //.attr('tickFormat',d3.format(".0f"))
+        .call(yAxis); //render y axis
+      
+      
+      const text=axis.selectAll('text')
+      text.attr("fill",d=>{
+          if(d>120){
+              return 'red'
+          }else{
+              return 'blue'
+          }
+      })
+      /*svg.append("g") //adding group within the svg to be able to add other svg elements
+        .attr("transform", "translate(20,0)") //translate the group
+        .call(yAxis); //render y axis
+      //scaling is mapping data values to the display.
+      /*
+         d3.scaleLinear()
+            .domain([0,100])
+            .range([0,1]) 
+
+            This will map the values from 0 to 100 between 0 and 1.
+
+            d3.min(data, d=>d[city])
+
+            d3.extent(data) returns both min and max
+
+            const yScale= d3.scaleLinear().domain(extent), range([height,0])
+
+            scaleTime can map dates to other continuous values
+        */
+    </script>
+  </body>
+</html>

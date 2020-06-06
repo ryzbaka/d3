@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="d3.v5.js"></script>
+    <!-- including d3.js -->
+  </head>
+  <body>
+    <svg height="300" width="600">
+      <rect />
+      <rect />
+      <rect />
+      <rect />
+      <rect />
+    </svg>
+    <script>
+      // Data and DOM elements are mapped one to one.
+      const data = [20, 50, 34, 40, 24];
+      const rectWidth = 40;
+      const height = 200;
+
+      d3.selectAll("rect") // select all rectangle elements that exist
+        .data(data) // provide the data that has to be visualised
+        .attr("x", (d, i) => {
+          return i * rectWidth; //this function determines the x coordinate of the rectangle.
+        })
+        .attr("y", (d, i) => {
+          return height - d;
+        }) //this function makes sure that the rectangles grow upwards. By default increasing y causes rectangle to grow downwards
+        .attr("height", (d) => d) // height of the rectangle is corresponding to the data value
+        .attr("width", rectWidth) // width of each rectangle is fixed
+        .attr("fill", (d, i) => {
+          if (i % 2 === 0) {
+            return "blue";
+          } else {
+            return "red";
+          }
+        }) //Alternating between red and blue bars
+        .attr("stroke", "#fff"); // border of the bars
+    </script>
+  </body>
+</html>

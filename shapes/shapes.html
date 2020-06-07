@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shapes Intro</title>
+    <script src="../basics/d3.v5.js"></script>
+  </head>
+  <body>
+    <svg></svg>
+    <style>
+      svg {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <script>
+      const height = 300;
+      const width = 800;
+      const data = [
+        { date: new Date(2007, 3, 24), value: 93 },
+        { date: new Date(2007, 3, 25), value: 95 },
+        { date: new Date(2007, 3, 26), value: 95 },
+        { date: new Date(2007, 3, 27), value: 95 },
+        { date: new Date(2007, 3, 30), value: 95 },
+        { date: new Date(2007, 4, 1), value: 93 },
+      ];
+
+      const yExtent = d3.extent(data, (element) => {
+        return element.value;
+      });
+      const yScale = d3.scaleLinear().domain(yExtent).range([height,0]);
+
+      const xExtent = d3.extent(data, (element) => {
+        return element.date;
+      });
+      const xScale = d3.scaleTime().domain(xExtent).range([0, width]);
+
+
+      
+      data.forEach((el, index) => {
+        console.log(`Scaled Value : ${yScale(el.value)}`);
+        console.log(`Scaled Date : ${xScale(el.date)}`);
+      });
+
+      const line = d3
+        .line()
+        .x((d) => {
+          return xScale(d.date);
+        })
+        .y((d) => {
+          return yScale(d.value);
+        });//returns the appropriate d attribute to be fed into a path element as an attribute
+        //scales are used to make sure the resultant plot is within boundaries
+
+     const viz=d3.select('svg')
+        .append('path')
+        .attr('d',line(data))
+
+        viz.attr('stroke','red')
+        viz.attr('stroke-width',2)
+        viz.attr('fill','none')
+    console.log(viz)
+      /*
+      const line = d3//figuring out the d attribute for SVG path
+        .line()
+        .x((d) => {
+          return xScale(d.date);
+        })
+        .y((d) => {
+          yScale(d.value);
+        });
+
+      d3.select('svg').append('path').attr('d',line(data))
+      //SVG shapes
+      //rect : x, y , width and height
+      //circle : cx, cy, radius
+      //text : x, y, dx, dy (dx and dy are coordinate offsets), text anchor: alignment
+      //path : d-> path to follow moveto , lineto , cuveto , arcto
+      // you can use the d3-shape module for making shapes. It calculates the d attribute of a path so we don't have to.
+
+      console.log(d3);
+      */
+    </script>
+  </body>
+</html>

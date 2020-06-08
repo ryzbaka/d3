@@ -22,7 +22,7 @@
       }
     </style>
     <script>
-      const colors=d3.scaleOrdinal(d3.schemeCategory10)
+      const colors=d3.scaleOrdinal(d3.schemeCategory10) //creates a transition object that is in sync with wherever it's used
       const barTransition = d3.transition().duration(1000);
       const svg = d3.select("svg");
       const height = 300;
@@ -56,7 +56,7 @@
 
         bars
           .exit() // exit selection
-          .transition(barTransition)
+          .transition(barTransition)//everything after calling a transition is the state that you want to transition to in that particular selection
           .attr('y',height)
           .attr('height',0)
           .remove(); //remove the bar then
@@ -74,16 +74,19 @@
         //.attr("y", height);
         bars = enter
           .merge(bars)
+          .attr('fill',d=>colors(d.key))
           .transition(barTransition)
           .attr("x", (d, i) => rectWidth * i)
           .attr("y", (d) => height - d.values)
           .attr("height", (d) => d.values)
-          .attr('fill',d=>colors(d.key))
       }
       let index=0;
       setInterval(() => {
           updateBars(data[index%data.length])
           index+=1
+          if(year===1936){
+            year=1927
+          }
       }, 2500);
     </script>
   </body>
